@@ -48,7 +48,7 @@ export function loadConfig(argv = process.argv.slice(2), env = process.env): Bac
     throw Error(`Invalid port: ${config.port}`);
   if (config.token.length < 32)
     throw Error(
-      `DPI_TOKEN is missing or shorter than 32 characters (looked in ${envFile}). Create one with: npm run token`,
+      `DPI_TOKEN is missing or shorter than 32 characters (looked in ${envFile}). Create one with: bun run token`,
     );
   return config;
 }

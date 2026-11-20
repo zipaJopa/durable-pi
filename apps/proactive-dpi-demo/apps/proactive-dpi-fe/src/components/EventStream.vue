@@ -142,7 +142,7 @@ watch(lastId, (now, before) => {
     <div ref="scroller" class="log-scroll" @scroll="onScroll">
       <div v-if="!rows.length" class="empty-panel">
         <Radar :size="28" /><strong>Waiting for log rows</strong
-        ><span>Start the log stream with npm run logs.</span>
+        ><span>Start the log stream with bun run logs.</span>
       </div>
       <div
         v-for="row in rows"

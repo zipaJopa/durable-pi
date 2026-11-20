@@ -8,19 +8,19 @@ See the [repository README](../../README.md#the-hook-a-proactive-durable-agent) 
 
 ```bash
 cd apps/proactive-dpi-demo
-npm install
-npm run reset   # fresh databases and a checkout-api git repo whose HEAD carries the bug
-npm run build
-npm start       # prints the URL to open
+bun install --frozen-lockfile
+bun run reset   # fresh databases and a checkout-api git repo whose HEAD carries the bug
+bun run build
+bun run start       # prints the URL to open
 ```
 
 From the project root, `just proactive` lists install, build, reset, start, take, dev, be, stream, tail, open, bug and stop. `just proactive take` resets and starts a fresh take, `just proactive bug` deploys the bug on demand, and `just proactive stop` ends a running demo.
 
-`npm start` boots the backend, starts the log stream, and prints a short banner with the URL. The terminal shows nothing else, so it can stay on camera. Process output goes to `.data/demo.log`; `--verbose` shows it instead.
+`bun run start` boots the backend, starts the log stream, and prints a short banner with the URL. The terminal shows nothing else, so it can stay on camera. Process output goes to `.data/demo.log`; `--verbose` shows it instead.
 
-Keys come from the project root `.env`. `OPENROUTER_API_KEY` covers Claude Sonnet 5.5 and Jev (`~typesafe/jev-latest`). `ELEVENLABS_API_KEY` covers the voice (default voice Emma from the ElevenLabs voice library; set `ELEVENLABS_VOICE_ID` to any voice in your account). Without it the line shows only as a toast. With `--tts browser` (the default off macOS), click the page once so the browser allows audio. `TYPESAFE_API_KEY`, when set, sends Jev calls to TypeSafe directly. `npm run dev` adds Vue hot reload. `npm run logs` and `npm run be` run the two processes separately.
+Keys come from the project root `.env`. `OPENROUTER_API_KEY` covers Claude Sonnet 5.5 and Jev (`~typesafe/jev-latest`). `ELEVENLABS_API_KEY` covers the voice (default voice Emma from the ElevenLabs voice library; set `ELEVENLABS_VOICE_ID` to any voice in your account). Without it the line shows only as a toast. With `--tts browser` (the default off macOS), click the page once so the browser allows audio. `TYPESAFE_API_KEY`, when set, sends Jev calls to TypeSafe directly. `bun run dev` adds Vue hot reload. `bun run logs` and `bun run be` run the two processes separately.
 
-Run `npm run reset` before every take. The demo must be stopped first.
+Run `bun run reset` before every take. The demo must be stopped first.
 
 ## Demo timeline
 
@@ -63,7 +63,7 @@ The timeline depends on Jev. Up to 6 Jev calls run at once, and 429, 502, 503 an
 | `--backlog <s>` | `300` | Rows older than this when first seen are marked skipped instead of judged |
 | `--jev-concurrency <n>` | `6` | Jev calls in flight |
 
-Example: `npm start -- --bug-at 30`. The flask icon in the top bar shows the countdown and can deploy the bug on demand. `DPI_READY_SPEECH` changes the spoken line. It plays when the agent first asks to deploy, and is synthesized at boot so it plays without delay. `ELEVENLABS_VOICE_ID` and `ELEVENLABS_MODEL` override the voice. One incident costs about $0.09 of Sonnet 5.5 through deploy, and Jev costs about $0.00003 per row.
+Example: `bun run start -- --bug-at 30`. The flask icon in the top bar shows the countdown and can deploy the bug on demand. `DPI_READY_SPEECH` changes the spoken line. It plays when the agent first asks to deploy, and is synthesized at boot so it plays without delay. `ELEVENLABS_VOICE_ID` and `ELEVENLABS_MODEL` override the voice. One incident costs about $0.09 of Sonnet 5.5 through deploy, and Jev costs about $0.00003 per row.
 
 ## How it works
 
@@ -102,7 +102,7 @@ Example: `npm start -- --bug-at 30`. The flask icon in the top bar shows the cou
 
 | Path | Role |
 | --- | --- |
-| `scripts/demo.ts`, `scripts/reset.ts` | `npm start` (backend + stream, one URL) and `npm run reset` |
+| `scripts/demo.ts`, `scripts/reset.ts` | `bun run start` (backend + stream, one URL) and `bun run reset` |
 | `shared/` | Paths, the log store and types shared by both processes |
 | `apps/proactive-dpi-logs/` | Mock Cloud Logging sink: traffic, deploys, bug injection |
 | `apps/proactive-dpi-be/src/main.ts`, `config.ts` | HTTP API, SSE streams, flags and env |
@@ -112,7 +112,7 @@ Example: `npm start -- --bug-at 30`. The flask icon in the top bar shows the cou
 | `apps/proactive-dpi-be/src/jev.ts`, `watch-store.ts`, `repo.ts` | Jev client, verdict store, branch diffs for review |
 | `apps/proactive-dpi-be/src/voice.ts` | ElevenLabs speech, host or browser playback |
 | `apps/proactive-dpi-fe/` | Two-column UI in the dpi-playground theme |
-| `mock-repo-template/` | Three commit overlays that `npm run reset` turns into `workspace/checkout-api` |
+| `mock-repo-template/` | Three commit overlays that `bun run reset` turns into `workspace/checkout-api` |
 | `workspace/` | The checkout-api repo and one worktree per incident (created by reset) |
 | `.data/` | `logs.sqlite`, `watch.sqlite`, `agent.sqlite`, `tts/`, `deploys/`, `demo.log` |
 

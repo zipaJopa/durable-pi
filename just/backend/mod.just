@@ -16,18 +16,18 @@ default:
 # Run this machine's backend (frees the port first)
 run *ARGS:
     @{{ free-port }} "$({{ port }})"
-    npm start -- "$@"
+    bun run start -- "$@"
 
 # Run with restart on file changes (frees the port)
 dev *ARGS:
     @{{ free-port }} "$({{ port }})"
-    npm run dev -- "$@"
+    bun run dev -- "$@"
 
 # Create ~/.dpi/backend.env with a token
 token:
-    npm run token
+    bun run token
 
 # Type check and run backend tests
 check:
-    npm run check
-    npm test
+    bun run check
+    bun run test

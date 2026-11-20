@@ -7,7 +7,7 @@ just tui attach mac-mini                   # pick a session on mac-mini (or crea
 just tui attach mac-mini:triage            # session by name or id; its root agent
 just tui attach mac-mini:triage:alt-path   # a specific agent (id, "main" or name)
 just tui new vm-1 review                   # in the device's first start dir; --cwd takes a path on the device
-cd apps/dpi-tui && npm start -- --url https://my-vm.exe.xyz --token $DPI_TOKEN --save my-vm
+cd apps/dpi-tui && bun run start -- --url https://my-vm.exe.xyz --token $DPI_TOKEN --save my-vm
 ```
 
 Device ids come from `~/.dpi/network.sqlite`, seeded from the repo's `dpi-network.yaml` (created from `dpi-network.example.yaml`). Tokens come from `just net register <id>`. `--url/--token` connects to any backend, and `--save <id>` stores it.
@@ -46,7 +46,7 @@ bin/dpi-tui.mjs  runs src/main.ts through tsx, for npm link or npx dpi-tui
 ## Tests
 
 ```bash
-npm run check && npm test   # types; every item kind fits widths 40/80/200 (CJK, emoji, long args)
+bun run check && bun run test   # types; every item kind fits widths 40/80/200 (CJK, emoji, long args)
 tests/smoke.sh faux         # tmux end to end against a faux-provider backend: streaming, steer, Esc, fork, reattach by name
 tests/smoke.sh <device>     # real model on a device: streaming, exit mid-tool, reattach
 ```

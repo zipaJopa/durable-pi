@@ -30,7 +30,7 @@ wait_for() { # pattern [seconds]
 send() { tmux send-keys -t "$S" -l -- "$1"; tmux send-keys -t "$S" Enter; }
 tui() { # args...
   tmux kill-session -t "$S" 2>/dev/null || true
-  tmux new-session -d -s "$S" -x 120 -y 40 "NODE_NO_WARNINGS=1 npx tsx src/main.ts $*; sleep 600"
+  tmux new-session -d -s "$S" -x 120 -y 40 "NODE_NO_WARNINGS=1 bun run tsx src/main.ts $*; sleep 600"
 }
 reattach_ref() { screen | grep -Eo 'just tui attach [^ ].*' | tail -1 | sed 's/^just tui attach //'; }
 

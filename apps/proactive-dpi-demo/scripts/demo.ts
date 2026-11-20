@@ -1,5 +1,5 @@
 // Runs the backend and the log stream together, then prints only the URL to open.
-// Log flags go to the stream, the rest to the backend: npm start -- --bug-at 5 --tts host
+// Log flags go to the stream, the rest to the backend: bun run start -- --bug-at 5 --tts host
 // Process output goes to .data/demo.log, so the terminal can stay on camera. --verbose shows it.
 import { spawn, type ChildProcess } from "node:child_process";
 import { existsSync, mkdirSync, openSync, readFileSync } from "node:fs";
@@ -8,7 +8,7 @@ import { join } from "node:path";
 import { dataDir, demoDir, repoDir } from "../shared/paths.ts";
 
 if (!existsSync(join(repoDir, ".git"))) {
-  console.error("Missing the mock repo. Run npm run reset first.");
+  console.error("Missing the mock repo. Run bun run reset first.");
   process.exit(1);
 }
 

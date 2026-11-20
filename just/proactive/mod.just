@@ -13,36 +13,36 @@ default:
 
 # Install the demo's dependencies
 install:
-    npm install --no-audit --no-fund
+    bun install --frozen-lockfile
 
 # Type check and build the UI
 build:
-    npm run build
+    bun run build
 
 # Wipe data and rebuild the mock repo
 reset:
-    npm run reset --silent
+    bun run reset --silent
 
 # Run the demo; prints only the URL
 start *ARGS:
-    npm start --silent -- {{ ARGS }}
+    bun run start --silent -- {{ ARGS }}
 
 # Fresh take: reset, then start
 take *ARGS:
-    npm run reset --silent
-    npm start --silent -- {{ ARGS }}
+    bun run reset --silent
+    bun run start --silent -- {{ ARGS }}
 
 # Run with Vue hot reload
 dev *ARGS:
-    npm run dev -- {{ ARGS }}
+    bun run dev -- {{ ARGS }}
 
 # Run only the backend
 be *ARGS:
-    npm run be -- {{ ARGS }}
+    bun run be -- {{ ARGS }}
 
 # Run only the log stream
 stream *ARGS:
-    npm run logs -- {{ ARGS }}
+    bun run logs -- {{ ARGS }}
 
 # Follow backend and stream output
 tail:

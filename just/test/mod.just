@@ -12,15 +12,15 @@ default:
 # Type checks and unit tests, every app
 [no-cd]
 unit:
-    cd apps/dpi-sdk && npm run check && npm test
-    cd apps/dpi-backend && npm run check && npm test
-    cd apps/dpi-playground && npm run build && npm run lint && npm test
-    cd apps/dpi-tui && npm run check && npm test
+    cd apps/dpi-sdk && bun run check && bun run test
+    cd apps/dpi-backend && bun run check && bun run test
+    cd apps/dpi-playground && bun run build && bun run lint && bun run test
+    cd apps/dpi-tui && bun run check && bun run test
 
 # Web UI suite against two faux devices (builds the UI first)
 [no-cd]
 ui:
-    cd apps/dpi-playground && npm run build && node tests/network-ui.mjs
+    cd apps/dpi-playground && bun run build && node tests/network-ui.mjs
 
 # UI and agent suites on one device
 [no-cd]

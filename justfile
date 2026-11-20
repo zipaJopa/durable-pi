@@ -27,10 +27,10 @@ default:
 
 # Install dependencies for every network app
 install:
-    cd apps/dpi-sdk && npm install --no-audit --no-fund
-    cd apps/dpi-backend && npm install --no-audit --no-fund
-    cd apps/dpi-playground && npm install --no-audit --no-fund
-    cd apps/dpi-tui && npm install --no-audit --no-fund
+    cd apps/dpi-sdk && bun install --frozen-lockfile
+    cd apps/dpi-backend && bun install --frozen-lockfile
+    cd apps/dpi-playground && bun install --frozen-lockfile
+    cd apps/dpi-tui && bun install --frozen-lockfile
 
 # Type checks and unit tests, every app
 check: test::unit

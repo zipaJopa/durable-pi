@@ -11,8 +11,8 @@ just install                         # once, from the repo root: the hub loads a
 just hub build                       # from the repo root: type-check and build the web UI the hub serves (again after FE changes)
 just hub start                       # from the repo root: http://localhost:4781 (stops whatever already holds the port)
 # or, from this directory after just install:
-npm run build && npm start
-npm run dev                          # Vite middleware with hot reload (no build needed)
+bun run build && bun run start
+bun run dev                          # Vite middleware with hot reload (no build needed)
 ```
 
 | Option | Default | Meaning |
@@ -57,8 +57,8 @@ tests/                          hub.test.ts, network-ui.mjs, device-ui.mjs, agen
 ## Tests
 
 ```bash
-npm run build && npm run lint && npm test     # types, Vite build, Oxlint, hub test (faux devices)
-node tests/network-ui.mjs                     # 28 browser checks against two faux devices (after npm run build)
+bun run build && bun run lint && bun run test     # types, Vite build, Oxlint, hub test (faux devices)
+node tests/network-ui.mjs                     # 28 browser checks against two faux devices (after bun run build)
 DPI_DEVICE=<id> node tests/device-ui.mjs       # the web UI on one real device: turns, tools, model, App State, jobs, read only, fork, /compact, /reset
 DPI_DEVICE=<id> node tests/agent-features.mjs  # steer, dedupe, withdraw, reject, read only, subagent, job, compact, reset
 DPI_DEVICE=<id> node tests/browser-close.mjs   # quit Chrome mid-tool; the device finishes; a new browser reattaches

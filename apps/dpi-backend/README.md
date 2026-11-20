@@ -11,10 +11,10 @@ client (hub / dpi-tui / curl) ──HTTP + SSE, Bearer──► dpi-backend ─�
 Needs Node 22.19 or newer (`.nvmrc` pins 24).
 
 ```bash
-cd apps/dpi-backend && npm install
-npm run token                  # creates ~/.dpi/backend.env with DPI_TOKEN and prints it (npm run token -- --rotate replaces it)
+cd apps/dpi-backend && bun install --frozen-lockfile
+bun run token                  # creates ~/.dpi/backend.env with DPI_TOKEN and prints it (bun run token -- --rotate replaces it)
 echo "OPENROUTER_API_KEY=sk-or-..." >> ~/.dpi/backend.env
-npm start                      # 127.0.0.1:4780; data in ~/.dpi/backend
+bun run start                      # 127.0.0.1:4780; data in ~/.dpi/backend
 ```
 
 With the repo's network config, `just net up local && just backend run` does the same thing. `just backend run` first stops whatever already listens on the backend's port.
@@ -113,7 +113,7 @@ curl -s "$U/v1/sessions/oneshot/agents/main/messages" "${H[@]}" \
 ## Development
 
 ```bash
-npm run dev     # restart on file changes (just backend dev)
-npm run check   # strict types, including the pi-durable ↔ SDK wire contract check
-npm test        # api, streams, store (jobs, start_session, extensions, read only), search_history, shared state and SIGKILL recovery (faux provider, no network)
+bun run dev     # restart on file changes (just backend dev)
+bun run check   # strict types, including the pi-durable ↔ SDK wire contract check
+bun run test        # api, streams, store (jobs, start_session, extensions, read only), search_history, shared state and SIGKILL recovery (faux provider, no network)
 ```

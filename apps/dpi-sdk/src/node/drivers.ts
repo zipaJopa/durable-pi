@@ -37,6 +37,10 @@ export type Driver = Partial<Record<Verb, (device: NetDevice, ctx: DriverContext
 export const SERVICE_LABEL = "dev.dpi.backend";
 export const SYSTEMD_UNIT = "dpi-backend";
 const NVM_INSTALL = "https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh";
+const ENSURE_BUN = `export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+command -v bun >/dev/null || curl -fsSL https://bun.sh/install | bash -s -- bun-v1.4.3`;
+
 
 /** Run a script locally (kind local) or on the device over ssh. */
 function exec(device: NetDevice, script: string, options: { echo?: boolean; timeoutMs?: number } = {}) {
@@ -73,7 +77,7 @@ async function facts(device: NetDevice) {
 const abs = (p: string, home: string) => (p === "~" ? home : p.startsWith("~/") ? `${home}/${p.slice(2)}` : p);
 
 async function provision(device: NetDevice, ctx: DriverContext) {
-  ctx.log(`provision ${device.id}: nvm + node ${device.node}`);
+  ctx.log(`provision ${device.id}: nvm + Node ${device.node} + Bun`);
   const apt =
     device.kind === "exe-dev"
       ? `if command -v apt-get >/dev/null; then sudo -n apt-get update -qq >/dev/null && sudo -n DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git rsync curl build-essential ripgrep >/dev/null; fi\n`
@@ -83,6 +87,7 @@ async function provision(device: NetDevice, ctx: DriverContext) {
     `${apt}if [ ! -s "$NVM_DIR/nvm.sh" ]; then curl -fsSL ${NVM_INSTALL} | PROFILE=/dev/null bash >/dev/null; fi
 . "$NVM_DIR/nvm.sh"
 nvm install ${device.node} >/dev/null 2>&1
+${ENSURE_BUN}
 echo "node: $(nvm which ${device.node})"`,
     { timeoutMs: 900_000 },
   );
@@ -97,10 +102,11 @@ async function deploy(device: NetDevice, ctx: DriverContext) {
     `mkdir -p "${shPath(device.codeDir)}/apps" "${shPath(device.codeDir)}/e2e" "${shPath(device.homeDir)}" && chmod 700 "${shPath(device.homeDir)}"`,
   );
   await rsync(device, ["apps/dpi-backend", "apps/dpi-sdk"], `${code}/apps/`, ctx.config.root);
-  ctx.log(`deploy ${device.id}: npm ci`);
+  ctx.log(`deploy ${device.id}: bun install --frozen-lockfile`);
   await exec(
     device,
-    `cd "${shPath(device.codeDir)}/apps/dpi-backend" && nvm exec ${device.node} npm ci --no-audit --no-fund --loglevel=error >/dev/null && echo installed`,
+    `${ENSURE_BUN}
+cd "${shPath(device.codeDir)}/apps/dpi-backend" && nvm exec ${device.node} bun install --frozen-lockfile >/dev/null && echo installed`,
     { timeoutMs: 900_000 },
   );
 }

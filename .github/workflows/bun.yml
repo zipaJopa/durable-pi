@@ -1,0 +1,37 @@
+name: Bun checks
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        app: [dpi-sdk, dpi-backend, dpi-tui, dpi-playground, proactive-dpi-demo]
+    defaults:
+      run:
+        working-directory: apps/${{ matrix.app }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24'
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
+        with:
+          bun-version: 1.4.3
+      - run: bun install --frozen-lockfile --linker isolated
+      - name: Build and test
+        env:
+          APP: ${{ matrix.app }}
+        run: |
+          case "$APP" in
+            dpi-playground) bun run build && bun run lint && bun run test ;;
+            proactive-dpi-demo) bun run build ;;
+            *) bun run check && bun run test ;;
+          esac
