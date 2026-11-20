@@ -29,6 +29,10 @@ jobs:
         if: matrix.app == 'dpi-backend' || matrix.app == 'dpi-playground' || matrix.app == 'dpi-tui'
         working-directory: apps/dpi-sdk
         run: bun install --frozen-lockfile --linker isolated
+      - name: Install backend dependencies for playground integration tests
+        if: matrix.app == 'dpi-playground'
+        working-directory: apps/dpi-backend
+        run: bun install --frozen-lockfile --linker isolated
       - run: bun install --frozen-lockfile --linker isolated
       - name: Build and test
         env:
