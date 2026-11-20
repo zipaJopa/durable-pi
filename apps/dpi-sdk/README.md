@@ -19,7 +19,7 @@ The apps import it by relative path (`../../dpi-sdk/src/client.ts`, or `@sdk/*` 
 | `src/node/registry.ts` | `NetworkRegistry`: the client-side device registry in `~/.dpi/network.sqlite` (URLs, tokens, live status, UI state), and `toPublic()`, the token-free view the hub serves |
 | `src/node/config.ts` | Parses `dpi-network.yaml` (found by walking up from the working directory, or `DPI_NETWORK_FILE`) and syncs it into the registry |
 | `src/node/drivers.ts`, `ops.ts` | One driver per device kind (`local`, `ssh`, `exe-dev`, `url`) with the steps behind `just net` |
-| `scripts/net.ts` | The ops CLI behind every `just net` recipe. From this folder: `npx tsx scripts/net.ts <verb> [device]` or `npm run net -- <verb> [device]`. `help` lists the verbs |
+| `scripts/net.ts` | The ops CLI behind every `just net` recipe. From this folder: `bun run tsx scripts/net.ts <verb> [device]` or `bun run net -- <verb> [device]`. `help` lists the verbs |
 
 ## Use it
 
@@ -58,6 +58,6 @@ const following = follow(
 ## Test
 
 ```bash
-npm run check   # strict types
-npm test        # SSE parsing, reducers against a recorded stream, compaction, App State, YAML config, registry
+bun run check   # strict types
+bun run test        # SSE parsing, reducers against a recorded stream, compaction, App State, YAML config, registry
 ```

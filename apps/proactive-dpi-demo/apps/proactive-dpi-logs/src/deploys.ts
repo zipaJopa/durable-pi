@@ -18,7 +18,7 @@ export type Revision = {
 
 export async function loadRevision(ref: string, name: string): Promise<Revision> {
   if (!existsSync(join(repoDir, ".git")))
-    throw Error(`Missing mock repo at ${repoDir}. Run npm run reset first.`);
+    throw Error(`Missing mock repo at ${repoDir}. Run bun run reset first.`);
   const git = (...args: string[]) =>
     execFileSync("git", args, { cwd: repoDir, encoding: "utf8" }).trim();
   const commit = git("rev-parse", "--short", ref);

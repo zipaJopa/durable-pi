@@ -15,16 +15,16 @@ default:
 # Serve the built web UI (frees the port first)
 start *ARGS:
     @{{ free-port }} {{ port }}
-    DPI_HUB_PORT={{ port }} npm start -- "$@"
+    DPI_HUB_PORT={{ port }} bun run start -- "$@"
 
 # Serve with Vite hot reload (frees the port)
 dev *ARGS:
     @{{ free-port }} {{ port }}
-    DPI_HUB_PORT={{ port }} npm run dev -- "$@"
+    DPI_HUB_PORT={{ port }} bun run dev -- "$@"
 
 # Type check and build the web UI
 build:
-    npm run build
+    bun run build
 
 # Open the web UI in the browser
 open:
@@ -32,6 +32,6 @@ open:
 
 # Build, lint and run the hub test
 check:
-    npm run build
-    npm run lint
-    npm test
+    bun run build
+    bun run lint
+    bun run test

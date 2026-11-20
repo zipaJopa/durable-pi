@@ -13,7 +13,7 @@ import { Voice } from "./voice.ts";
 import { WatchStore } from "./watch-store.ts";
 import { Watcher } from "./watcher.ts";
 
-if (!existsSync(join(repoDir, ".git"))) throw Error("Missing the mock repo. Run npm run reset first.");
+if (!existsSync(join(repoDir, ".git"))) throw Error("Missing the mock repo. Run bun run reset first.");
 mkdirSync(dataDir, { recursive: true });
 
 const store = new WatchStore();

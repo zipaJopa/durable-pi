@@ -61,7 +61,7 @@ function tui(args) {
     "130",
     "-y",
     "45",
-    `cd ${repo}/apps/dpi-tui && NODE_NO_WARNINGS=1 npx tsx src/main.ts ${args}; sleep 900`,
+    `cd ${repo}/apps/dpi-tui && NODE_NO_WARNINGS=1 bun run tsx src/main.ts ${args}; sleep 900`,
   );
 }
 const type = (text) => (

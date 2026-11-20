@@ -1,5 +1,5 @@
 // One-time move of the old single-machine playground's data into a dpi-backend data dir.
-//   npm run migrate-playground -- --from ../dpi-playground [--to ~/.dpi/backend]
+//   bun run migrate-playground -- --from ../dpi-playground [--to ~/.dpi/backend]
 // Stop the old playground first. The source is left in place; the target must be empty.
 import { DatabaseSync } from "node:sqlite";
 import { copyFileSync, cpSync, existsSync, mkdirSync, readFileSync, readdirSync } from "node:fs";

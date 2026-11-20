@@ -32,7 +32,7 @@ The command lives in [`.claude/commands/install.md`](.claude/commands/install.md
 ```bash
 cp .env.example .env                           # set OPENROUTER_API_KEY; copied into each device's backend.env, never sent to clients
 cp dpi-network.example.yaml dpi-network.yaml   # your devices; starts with only `local`
-just install                                   # npm install for dpi-sdk, dpi-backend, dpi-playground and dpi-tui
+just install                                   # bun install --frozen-lockfile for dpi-sdk, dpi-backend, dpi-playground and dpi-tui
 just net up local                              # write ~/.dpi/backend.env with a fresh token and register this machine
 just hub build                                 # build the web UI the hub serves (once, and after UI changes)
 just backend run                               # this machine's device server on :4780
@@ -220,14 +220,14 @@ Devices are data. `dpi-network.yaml` declares each one by kind, and no code or r
 | Kind | How it runs | `just net up <id>` does |
 |---|---|---|
 | `local` | `just backend run` on this machine, or a service if you set `service:` | env file and registry entry (plus the service when set) |
-| `ssh` | a launchd LaunchAgent (macOS) or a systemd unit (Linux) | install Node 24 with nvm, rsync the code and `npm ci`, env, service, register, wait online |
+| `ssh` | a launchd LaunchAgent (macOS) or a systemd unit (Linux) | install Node 24 with nvm and Bun, rsync the code and `bun install --frozen-lockfile`, env, service, register, wait online |
 | `exe-dev` | systemd on an [exe.dev](https://exe.dev) VM behind its HTTPS proxy | create the named VM if missing, the `ssh` steps, expose port 4780 over HTTPS before register |
 | `url` | anything already running | register the URL and token only |
 
 ```bash
 just net up <id>         # every step the device's kind supports, in order; idempotent
 just net status          # probe every device
-just net deploy <id>     # ssh and exe-dev: rsync code, npm ci and restart; data stays
+just net deploy <id>     # ssh and exe-dev: rsync code, bun install --frozen-lockfile and restart; data stays
 just net logs <id>       # tail the service log
 just net restart <id>    # restart the service
 just net rotate <id>     # new token on the device, then re-register
@@ -296,7 +296,7 @@ durable-pi/
 
 ```bash
 just                       # command groups: net, backend, hub, tui, test, proactive
-just install               # npm install for the four network apps
+just install               # bun install --frozen-lockfile for the four network apps
 just check                 # type checks and unit tests, every app (free, no network)
 just backend run           # this machine's device server on :4780
 just hub start             # web UI on :4781
